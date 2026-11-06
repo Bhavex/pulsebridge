@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">PulseBridge logo</title>
+  <desc id="desc">A red blood drop with a white pulse line.</desc>
+  <rect width="256" height="256" rx="56" fill="#202124"/>
+  <path d="M128 27C97 72 59 110 59 166a69 69 0 0 0 138 0c0-56-38-94-69-139Z" fill="#C62828"/>
+  <path d="M77 165h25l13-33 24 66 14-33h27" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"/>
+</svg>
