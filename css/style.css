@@ -530,3 +530,16 @@ tbody tr:last-child td { border-bottom: 0; }
   a { color: #000 !important; }
   .chapter { min-height: 0 !important; padding: 20px 0 !important; }
 }
+
+html.i18n-pending body { opacity: 0; }
+body { transition: opacity .15s ease; }
+.lang-picker select { min-height: 36px; padding: 0 26px 0 10px; font-size: 12px; font-weight: 600; border-radius: 99px; background-color: transparent; color: var(--ink-soft); }
+:lang(hi) body, :lang(mr) body { font-family: "Inter", "Noto Sans Devanagari", "Mangal", system-ui, sans-serif; }
+:lang(bn) body { font-family: "Inter", "Noto Sans Bengali", "Vrinda", system-ui, sans-serif; }
+:lang(te) body { font-family: "Inter", "Noto Sans Telugu", "Gautami", system-ui, sans-serif; }
+:lang(ta) body { font-family: "Inter", "Noto Sans Tamil", "Latha", system-ui, sans-serif; }
+:lang(gu) body { font-family: "Inter", "Noto Sans Gujarati", "Shruti", system-ui, sans-serif; }
+:lang(pa) body { font-family: "Inter", "Noto Sans Gurmukhi", "Raavi", system-ui, sans-serif; }
+:lang(hi) h1, :lang(hi) h2, :lang(mr) h1, :lang(mr) h2, :lang(bn) h1, :lang(bn) h2, :lang(te) h1, :lang(te) h2, :lang(ta) h1, :lang(ta) h2, :lang(gu) h1, :lang(gu) h2, :lang(pa) h1, :lang(pa) h2 { letter-spacing: 0; line-height: 1.25; }
+:lang(ta) .hero-title, :lang(te) .hero-title, :lang(bn) .hero-title { font-size: clamp(34px, 5vw, 72px); }
+html:not([lang="en"]) .eyebrow, html:not([lang="en"]) .card-kicker, html:not([lang="en"]) .chapter-num, html:not([lang="en"]) .status-pill, html:not([lang="en"]) .meta-label, html:not([lang="en"]) .donor-details dt, html:not([lang="en"]) .profile-facts dt, html:not([lang="en"]) .secure-mark, html:not([lang="en"]) .privacy-chip, html:not([lang="en"]) .admin-badge, html:not([lang="en"]) .scroll-cue, html:not([lang="en"]) .chapter-rail a { letter-spacing: 0; text-transform: none; }

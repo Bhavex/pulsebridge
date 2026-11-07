@@ -1,3 +1,5 @@
+import { LANGUAGES, currentLanguage, locale, setLanguage } from "./i18n.js";
+
 const quotes = [
   { text: "A single donation can be the moment someone gets another tomorrow.", author: "PulseBridge community" },
   { text: "The strongest bridges are built one generous act at a time.", author: "Blood donation reminder" },
@@ -32,14 +34,14 @@ export function formatDate(value) {
   if (!value) return "—";
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return "—";
-  return new Intl.DateTimeFormat("en-IN", { dateStyle: "medium" }).format(date);
+  return new Intl.DateTimeFormat(locale(), { dateStyle: "medium" }).format(date);
 }
 
 export function formatDateTime(value) {
   if (!value) return "—";
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return "—";
-  return new Intl.DateTimeFormat("en-IN", { dateStyle: "medium", timeStyle: "short" }).format(date);
+  return new Intl.DateTimeFormat(locale(), { dateStyle: "medium", timeStyle: "short" }).format(date);
 }
 
 export function todayISO(offsetDays = 0) {
@@ -223,9 +225,11 @@ function renderNav(user) {
       ${link("privacy.html", "Privacy")}
       <span class="nav-divider" aria-hidden="true"></span>
       ${isAdmin ? link("admin.html", "Admin console", "nav-admin-link") : ""}
+      <label class="lang-picker"><span class="sr-only">Language</span><select data-action="language" aria-label="Language">${LANGUAGES.map((l) => `<option value="${l.code}"${l.code === currentLanguage() ? " selected" : ""}>${l.name}</option>`).join("")}</select></label>
       ${document.body.classList.contains("home-3d") ? "" : `<button class="theme-toggle" type="button" data-action="toggle-theme" aria-label="Switch light or dark theme">${isLight() ? "☾ Dark" : "☀ Light"}</button>`}
       ${user ? `<button class="button button-small button-outline" type="button" data-action="sign-out">Sign out</button>` : `<a class="button button-small button-outline" href="login.html">Sign in</a>`}
     </div>`;
+  nav.querySelector("[data-action=language]")?.addEventListener("change", (event) => setLanguage(event.target.value));
   nav.querySelector("[data-action=toggle-theme]")?.addEventListener("click", () => {
     setTheme(isLight() ? "dark" : "light");
     renderNav(user);
