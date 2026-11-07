@@ -1,0 +1,78 @@
+.home-3d { background: #060607; overflow-x: hidden; }
+.home-3d .site-header { background: rgba(6, 6, 7, .55); }
+#scene { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; display: block; }
+.scene-fallback { display: none; position: fixed; z-index: 0; right: 8vw; top: 22vh; width: min(320px, 40vw); color: var(--red); filter: drop-shadow(0 0 60px rgba(229, 56, 63, .45)); animation: float 6s ease-in-out infinite; pointer-events: none; }
+.no-3d #scene { display: none; }
+.no-3d .scene-fallback { display: block; }
+.home-3d::before { content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none; background: radial-gradient(ellipse at 70% 35%, rgba(229, 56, 63, .14), transparent 55%), radial-gradient(ellipse at 15% 90%, rgba(120, 10, 20, .18), transparent 50%); }
+
+.story { position: relative; z-index: 1; }
+.home-3d .site-footer { position: relative; z-index: 1; }
+
+.chapter { min-height: 100vh; display: flex; align-items: center; padding: 120px 0; position: relative; }
+.chapter > .shell { width: var(--shell); }
+.chapter-hero { min-height: calc(100vh - 78px); padding: 60px 0 120px; }
+.hero-copy-3d { max-width: 640px; }
+.hero-title { font: 700 clamp(44px, 6.6vw, 96px)/1.0 "DM Sans", sans-serif; letter-spacing: -.045em; margin: 14px 0 26px; color: var(--ink); }
+.hero-title span { display: block; background: linear-gradient(100deg, #ff6b70 0%, #e5383f 45%, #ff9a93 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.chapter-hero .hero-lede { font-size: clamp(15px, 1.4vw, 18px); color: var(--ink-soft); max-width: 520px; }
+.chapter-hero .hero-actions { margin-top: 30px; }
+
+.scroll-cue { position: absolute; left: 50%; bottom: 34px; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 10px; color: var(--muted); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; text-decoration: none; }
+.scroll-cue span { width: 22px; height: 36px; border: 1.5px solid #3a3b42; border-radius: 99px; position: relative; }
+.scroll-cue span::after { content: ""; position: absolute; left: 50%; top: 7px; width: 4px; height: 8px; margin-left: -2px; border-radius: 4px; background: var(--red); animation: cue 1.8s ease-in-out infinite; }
+@keyframes cue { 0% { transform: translateY(0); opacity: 1; } 70% { transform: translateY(12px); opacity: 0; } 100% { opacity: 0; } }
+
+.fact-strip { position: relative; padding: 26px 0; border-top: 1px solid rgba(255, 255, 255, .06); border-bottom: 1px solid rgba(255, 255, 255, .06); background: rgba(6, 6, 7, .6); backdrop-filter: blur(8px); }
+.fact-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.fact { display: grid; gap: 4px; }
+.fact strong { font: 700 clamp(26px, 3vw, 40px)/1 "DM Sans", sans-serif; letter-spacing: -.03em; color: #fff; }
+.fact span { color: var(--muted); font-size: 12px; }
+
+.chapter-panel { max-width: 470px; padding: 34px; border-radius: 26px; background: linear-gradient(180deg, rgba(18, 19, 22, .93), rgba(12, 12, 14, .9)); border: 1px solid rgba(255, 255, 255, .07); backdrop-filter: blur(14px); box-shadow: 0 30px 80px rgba(0, 0, 0, .45); }
+.panel-right { margin-left: auto; }
+.panel-left { margin-right: auto; }
+.chapter-panel h2 { font: 700 clamp(30px, 3.4vw, 46px)/1.05 "DM Sans", sans-serif; letter-spacing: -.035em; margin: 12px 0 14px; color: #fff; }
+.chapter-panel p { color: var(--ink-soft); font-size: 14px; margin: 0; }
+.chapter-num { display: inline-block; color: #ff8a8f; font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; padding: 6px 11px; border-radius: 99px; background: rgba(229, 56, 63, .12); border: 1px solid rgba(229, 56, 63, .25); }
+.chapter-panel .hero-actions { margin-top: 24px; }
+
+.mock-card { margin-top: 22px; display: grid; gap: 10px; }
+.mock-row, .mock-slip { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 16px; background: rgba(255, 255, 255, .03); border: 1px solid rgba(255, 255, 255, .06); }
+.mock-row > div, .mock-slip > div { flex: 1; min-width: 0; }
+.mock-row strong, .mock-slip strong { display: block; font-size: 14px; color: #fff; }
+.mock-row small, .mock-slip small { color: var(--muted); font-size: 11px; }
+.mock-row .blood-badge { min-width: 40px; height: 40px; font-size: 14px; border-radius: 12px; }
+.slip-icon { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: rgba(255, 255, 255, .08); color: #fff; font-weight: 800; }
+.mock-card .contact-reveal { margin: 0; }
+.mock-card .contact-reveal span { display: block; }
+
+.chapter-rail { position: fixed; right: 26px; top: 50%; transform: translateY(-50%); z-index: 15; display: grid; gap: 14px; }
+.chapter-rail a { display: flex; align-items: center; justify-content: flex-end; gap: 10px; text-decoration: none; color: transparent; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; transition: color .25s ease; }
+.chapter-rail a::after { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #3a3b42; transition: transform .25s ease, background .25s ease, box-shadow .25s ease; }
+.chapter-rail a:hover, .chapter-rail a.is-active { color: var(--ink-soft); }
+.chapter-rail a.is-active::after { background: var(--red); transform: scale(1.5); box-shadow: 0 0 0 5px rgba(229, 56, 63, .18); }
+
+.home-3d .notice-section, .home-3d .cta-section { position: relative; }
+.home-3d .notice-section { background: transparent; }
+.home-3d .cta-section { background: linear-gradient(110deg, #9e141b, #e5383f); }
+
+@media (max-width: 900px) {
+  .fact-grid { grid-template-columns: repeat(2, 1fr); }
+  .chapter-rail { display: none; }
+  .chapter-panel { max-width: none; }
+  .panel-right, .panel-left { margin: 0; }
+  .chapter { align-items: flex-end; min-height: 110vh; padding: 60vh 0 80px; }
+  .chapter-hero { align-items: center; min-height: calc(100vh - 68px); padding: 26vh 0 90px; }
+  .scene-fallback { right: 50%; transform: translateX(50%); top: 12vh; width: 180px; }
+}
+
+@media (max-width: 680px) {
+  .chapter-panel { padding: 24px; border-radius: 22px; }
+  .hero-title { font-size: clamp(40px, 11vw, 56px); }
+  .scroll-cue { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-cue span::after, .scene-fallback { animation: none; }
+}

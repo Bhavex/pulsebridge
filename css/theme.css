@@ -1,0 +1,70 @@
+:root {
+  color-scheme: dark;
+  --bg: #0a0a0c;
+  --red: #e5383f;
+  --red-dark: #b81f27;
+  --red-soft: #2a1215;
+  --ink: #f4f1ee;
+  --ink-soft: #bdb9b5;
+  --muted: #8d8a87;
+  --line: #26272d;
+  --fog: #17181c;
+  --white: #121316;
+  --green: #4fc287;
+  --shadow: 0 24px 60px rgba(0, 0, 0, .5);
+  --glow: 0 0 0 1px rgba(229, 56, 63, .25), 0 18px 50px rgba(229, 56, 63, .18);
+}
+
+html { background: var(--bg); }
+body { background: var(--bg); }
+body::selection { color: #fff; }
+
+.top-strip, .quote-band, .site-footer, .toast, .chip-dark, .install-banner { background: #050506; }
+.top-strip { border-bottom: 1px solid #17181c; }
+.site-header { background: rgba(10, 10, 12, .78); border-bottom: 1px solid rgba(255, 255, 255, .06); }
+.nav-links .button-outline { border-color: #5b2427; }
+.hero-section { background: radial-gradient(circle at 78% 40%, rgba(229, 56, 63, .16), transparent 55%), var(--bg); }
+.floating-note { background: rgba(18, 19, 22, .82); border-color: rgba(255, 255, 255, .08); backdrop-filter: blur(10px); }
+.avatar-chip { background: #3a1517; color: #ff9a93; }
+.signal-orbit { border-color: rgba(229, 56, 63, .25); }
+.quote-line { background: #3a3c42; }
+.section-intro, .values-grid article, .step-card { background: var(--white); }
+.step-card { border-color: var(--line); }
+.step-card:hover { box-shadow: var(--glow); }
+.about-hero { background: radial-gradient(circle at 80% 30%, rgba(229, 56, 63, .12), transparent 55%), var(--fog); }
+.auth-page { background: radial-gradient(circle at 85% 20%, rgba(229, 56, 63, .14), transparent 50%), var(--bg); }
+.card-surface { background: linear-gradient(180deg, #15161a, #111215); border-color: var(--line); }
+.secure-mark, .privacy-chip, .admin-badge { background: rgba(79, 194, 135, .12); }
+.google-button { background: #fff; border-color: #fff; color: #111 !important; }
+.google-button:hover { background: #e9e9ea; border-color: #e9e9ea; }
+.google-g { background: #f1f3f4; }
+.success-icon, .check-mark, .is-available, .chip-ok, .status-accepted, .status-completed { background: rgba(79, 194, 135, .14); color: var(--green); }
+.chip-warn, .status-pending { background: rgba(240, 181, 74, .14); color: #f0b54a; }
+.chip-red { background: rgba(229, 56, 63, .14); color: #ff8a8f; }
+.chip, .status-pill { background: #1f2025; }
+.status-declined, .status-reported, .status-cancelled, .status-expired { background: #1f2025; color: var(--muted); }
+.guard-card .notice-symbol, .form-note span, .status-select, .danger-zone, .button-outline { border-color: #5b2427; }
+.donor-card:hover, .role-card:hover { border-color: #5b2427; box-shadow: var(--glow); }
+.inline-link { border-bottom-color: #5b2427; }
+.button-ghost { color: var(--ink); }
+.button-ghost:hover { background: #1d1e23; border-color: #34353c; color: var(--ink); }
+.button-white { background: #fff; border-color: #fff; color: var(--red-dark); }
+.button-white:hover { background: #ffe9e9; border-color: #ffe9e9; }
+.button-light:hover { background: #fff; border-color: #fff; color: var(--red-dark); }
+.button { box-shadow: 0 10px 26px rgba(229, 56, 63, .25); }
+input, select, textarea { background: #0e0f12; border-color: #2e2f36; color: var(--ink); }
+input::placeholder, textarea::placeholder { color: #66646a; }
+input:focus, select:focus, textarea:focus { box-shadow: 0 0 0 4px rgba(229, 56, 63, .16); }
+.panel-message, .file-drop { border-color: #2f3036; }
+.panel-message-error { background: var(--red-soft); color: #ff9a93; border-color: #5b2427; }
+.contact-reveal { background: rgba(79, 194, 135, .07); border-color: rgba(79, 194, 135, .35); }
+.meter { background: #1f2025; }
+.text-button-danger { color: #ff7f86; }
+.table-wrap th { color: var(--muted); }
+.table-wrap td, .table-wrap th { border-color: var(--line); }
+.blood-badge { box-shadow: 0 8px 22px rgba(229, 56, 63, .35); }
+.selected-donor { border-color: var(--line); }
+.policy-card section { border-color: var(--line); }
+.request-flow { grid-template-columns: minmax(0, 1fr); }
+.request-flow > *, .form-grid > * { min-width: 0; }
+input[type=file] { max-width: 100%; }

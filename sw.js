@@ -1,7 +1,7 @@
-const VERSION = "pb-v2-1";
+const VERSION = "pb-v3-1";
 const SHELL = [
   "./", "index.html", "login.html", "find-donors.html", "contact-request.html", "my-requests.html", "donate.html",
-  "about.html", "privacy.html", "confirm.html", "css/style.css", "js/ui.js", "js/auth.js", "js/supabase-config.js",
+  "about.html", "privacy.html", "confirm.html", "css/style.css", "css/theme.css", "css/home.css", "js/home3d.js", "js/vendor/three.module.min.js", "js/vendor/gsap.min.js", "js/vendor/ScrollTrigger.min.js", "js/ui.js", "js/auth.js", "js/supabase-config.js",
   "js/donors.js", "js/requests.js", "js/donor-portal.js", "js/confirm.js", "js/vendor/supabase.js",
   "pulsebridge-logo.svg", "icons/icon-192.png", "icons/icon-512.png", "manifest.webmanifest"
 ];
