@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /pulsebridge/
+Disallow: /pulsebridge/admin.html
+Disallow: /pulsebridge/confirm.html
+Disallow: /pulsebridge/my-requests.html
+Disallow: /pulsebridge/contact-request.html
+
+Sitemap: https://bhavex.github.io/pulsebridge/sitemap.xml

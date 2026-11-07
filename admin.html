@@ -10,6 +10,17 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="PulseBridge">
+  <link rel="canonical" href="https://bhavex.github.io/pulsebridge/admin.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="PulseBridge">
+  <meta property="og:title" content="Admin console — PulseBridge">
+  <meta property="og:description" content="PulseBridge admin console.">
+  <meta property="og:url" content="https://bhavex.github.io/pulsebridge/admin.html">
+  <meta property="og:image" content="https://bhavex.github.io/pulsebridge/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="robots" content="noindex">
   <title>Admin console — PulseBridge</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="pulsebridge-logo.svg" type="image/svg+xml">
@@ -18,17 +29,21 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/theme.css" id="theme-css">
+  <script src="js/theme-init.js"></script>
   <script src="js/vendor/supabase.js" defer></script>
 </head>
 <body data-page="admin" data-guard="signed-in" data-admin-only="true">
+  <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header"><div class="shell"><nav id="site-nav" aria-label="Primary navigation"></nav></div></header>
-  <main><div class="shell page-header page-header-admin"><div><p class="eyebrow">Admin workspace</p><h1>Keep the bridge safe.</h1><p>Review reported requests first, check slips, and block accounts that misuse PulseBridge.</p></div><div class="admin-user-chip"><span class="avatar-chip">PB</span><span><small>Signed in as</small><strong data-auth-email>—</strong></span></div></div>
+  <main id="main"><div class="shell page-header page-header-admin"><div><p class="eyebrow">Admin workspace</p><h1>Keep the bridge safe.</h1><p>Review reported requests first, check slips, and block accounts that misuse PulseBridge.</p></div><div class="admin-user-chip"><span class="avatar-chip">PB</span><span><small>Signed in as</small><strong data-auth-email>—</strong></span></div></div>
     <div class="shell guard-state" data-guard-message hidden><div class="card-surface guard-card"><span class="notice-symbol" aria-hidden="true">!</span><div><h2>Admin access is required.</h2><p>This page is limited to accounts listed as PulseBridge admins.</p><a class="button button-small" href="index.html">Return home</a></div></div></div>
     <div class="shell content-stack admin-stack" data-gated-content hidden>
       <section class="admin-section"><div class="section-bar"><div><p class="eyebrow">Requests</p><h2>All requests</h2><p class="section-subtitle">Reported requests are listed first.</p></div><span class="admin-badge">Admin only</span></div><div id="admin-request-list" class="request-list"></div></section>
       <section class="admin-section"><div class="section-bar"><div><p class="eyebrow">Donors</p><h2>Registered donors</h2></div></div><div class="table-wrap card-surface"><table><caption class="sr-only">All donors</caption><thead><tr><th>Name</th><th>Group</th><th>Age</th><th>Location</th><th>Hospital</th><th>Private contact</th><th>Status</th><th>Actions</th></tr></thead><tbody id="admin-donor-rows"></tbody></table></div></section>
       <section class="admin-section"><div class="section-bar"><div><p class="eyebrow">Safety</p><h2>Blocked accounts</h2></div></div><div id="admin-blocked-list" class="request-list"></div></section>
+      <section class="admin-section"><div class="section-bar"><div><p class="eyebrow">Monitoring</p><h2>Errors people hit</h2><p class="section-subtitle">Crashes and failed actions from visitors' browsers, newest first. Kept for 60 days.</p></div><button id="clear-errors" class="button button-small button-ghost" type="button">Clear list</button></div><div id="admin-error-list" class="request-list"></div></section>
+      <section class="admin-section"><div class="section-bar"><div><p class="eyebrow">Backups</p><h2>Download a backup</h2><p class="section-subtitle">Saves every donor, private contact, request and blocked account as a JSON file. Do this weekly and keep it somewhere private: it contains phone numbers.</p></div><button id="download-backup" class="button button-small" type="button">Download backup</button></div></section>
       <section class="admin-notice"><strong>Privacy boundary</strong><span>Everything on this page is enforced by the database. Non-admin accounts get nothing back even if they open this page.</span></section>
     </div>
   </main>

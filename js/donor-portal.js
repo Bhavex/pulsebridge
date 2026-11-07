@@ -1,7 +1,7 @@
 import { supabase, supabaseReady } from "./supabase-config.js";
 import { onAuth, displayName } from "./auth.js";
 import { openSlip, revealContact } from "./requests.js";
-import { createElement, formatDate, formatDateTime, friendlyError, isValidPhone, setBusy, setPanelMessage, showToast, statusPill, todayISO } from "./ui.js";
+import { confirmDialog, createElement, formatDate, formatDateTime, friendlyError, isValidPhone, mapsLink, promptDialog, setBusy, setPanelMessage, showToast, statusPill, todayISO } from "./ui.js";
 
 const CONFIRM_DAYS = 30;
 const HIDE_DAYS = 37;
@@ -68,7 +68,7 @@ function incomingCard(request, reload) {
     wrap.append(createElement("span", { className: "meta-label", text: term }), createElement("strong", { text: value || "—" }));
     meta.append(wrap);
   });
-  card.append(head, meta, createElement("p", { className: "request-message", text: request.message }));
+  card.append(head, meta, createElement("p", { className: "request-message", text: request.message }), mapsLink([request.hospital_name, request.hospital_city], "Hospital directions"));
   const actions = createElement("div", { className: "request-actions" });
   if (request.slip_path) {
     const slip = createElement("button", { className: "button button-small button-ghost", text: "View hospital slip", attrs: { type: "button" } });
@@ -96,7 +96,7 @@ function incomingCard(request, reload) {
 }
 
 async function respond(id, accept, button, reload) {
-  if (accept && !window.confirm("Accepting shares your phone number with this person so they can call you. Continue?")) return;
+  if (accept && !(await confirmDialog({ title: "Share your number?", message: "Accepting shares your phone number with this person so they can call you, and you will see theirs.", confirmLabel: "Accept and share" }))) return;
   try {
     setBusy(button, true, accept ? "Accepting…" : "Declining…");
     const { error } = await supabase.rpc("respond_to_request", { p_request_id: id, p_accept: accept });
@@ -110,7 +110,7 @@ async function respond(id, accept, button, reload) {
 }
 
 async function reportRequest(id, button, reload) {
-  const reason = window.prompt("What looks wrong with this request? (for example: fake slip, asking for money)");
+  const reason = await promptDialog({ title: "Report this request", message: "What looks wrong? For example: fake slip, asking for money.", confirmLabel: "Report", danger: true, input: { multiline: true, maxLength: 300, placeholder: "Tell the PulseBridge team what happened" } });
   if (reason === null) return;
   try {
     setBusy(button, true, "Reporting…");
@@ -259,7 +259,7 @@ function initDonorPage() {
 
   document.querySelector("#delete-profile")?.addEventListener("click", async (event) => {
     const button = event.currentTarget;
-    if (!window.confirm("Delete your donor profile? Your details and any requests sent to you will be permanently removed.")) return;
+    if (!(await confirmDialog({ title: "Delete your donor profile?", message: "Your details and any requests sent to you will be permanently removed. This cannot be undone.", confirmLabel: "Delete permanently", danger: true }))) return;
     try {
       setBusy(button, true, "Deleting…");
       const { error } = await supabase.rpc("delete_my_donor_profile");

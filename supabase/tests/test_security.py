@@ -189,6 +189,19 @@ ok("profile gone", cur.fetchone()[0] == 0)
 cur.execute("select count(*) from public.donor_private where donor_id = %s", (d1,))
 ok("private data gone", cur.fetchone()[0] == 0)
 
+
+expect_ok("anon can log a client error", "anon", "select public.log_client_error('index.html', 'boom', 'stack', 'ua')")
+expect_err("anon cannot read client errors", "anon", "select * from public.client_errors", contains="permission denied")
+expect_err("signed-in cannot read client errors", "r", "select * from public.client_errors", contains="permission denied")
+expect_err("non-admin cannot list errors", "r", "select * from public.admin_list_errors()", contains="admin")
+expect_err("non-admin cannot export backup", "r", "select public.admin_export_backup()", contains="admin")
+expect_err("anon cannot export backup", "anon", "select public.admin_export_backup()", contains="permission denied")
+rows = expect_ok("admin lists errors", "admin", "select message from public.admin_list_errors()")
+ok("logged error visible to admin", rows and rows[0][0] == "boom", rows)
+rows = expect_ok("admin exports backup", "admin", "select jsonb_array_length(public.admin_export_backup() -> 'donor_private')")
+ok("backup includes private donor rows", rows and rows[0][0] >= 1, rows)
+expect_ok("admin clears errors", "admin", "select public.admin_clear_errors()")
+
 print(f"PASSED {passed}  FAILED {len(failed)}")
 for f in failed:
     print("FAIL", f)

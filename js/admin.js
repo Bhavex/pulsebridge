@@ -1,7 +1,7 @@
 import { supabase } from "./supabase-config.js";
 import { onAuth } from "./auth.js";
 import { openSlip } from "./requests.js";
-import { createElement, formatDate, formatDateTime, friendlyError, setBusy, setPanelMessage, showToast, statusPill } from "./ui.js";
+import { confirmDialog, createElement, formatDate, formatDateTime, friendlyError, promptDialog, setBusy, setPanelMessage, showToast, statusPill } from "./ui.js";
 
 const STATUSES = ["pending", "accepted", "declined", "cancelled", "expired", "reported", "completed"];
 
@@ -13,7 +13,7 @@ async function rpc(fn, args) {
 
 async function blockUser(userId, button, reloadAll) {
   if (!userId) return;
-  const reason = window.prompt("Reason for blocking this account?");
+  const reason = await promptDialog({ title: "Block this account?", message: "They will not be able to search, upload or send requests, and their open requests will be cancelled.", confirmLabel: "Block", danger: true, input: { maxLength: 300, placeholder: "Reason (only admins see this)" } });
   if (reason === null) return;
   try {
     setBusy(button, true, "Blocking…");
@@ -104,7 +104,7 @@ async function loadDonors(reloadAll) {
       const actions = createElement("td", { className: "table-actions" });
       const del = createElement("button", { className: "text-button text-button-danger", text: "Delete", attrs: { type: "button" } });
       del.addEventListener("click", async () => {
-        if (!window.confirm(`Permanently delete donor ${d.name}?`)) return;
+        if (!(await confirmDialog({ title: `Delete ${d.name}?`, message: "This permanently removes the donor and any requests sent to them.", confirmLabel: "Delete permanently", danger: true }))) return;
         try {
           await rpc("admin_delete_donor", { p_id: d.id });
           showToast("Donor deleted.", "success");
@@ -155,13 +155,68 @@ async function loadBlocked(reloadAll) {
   }
 }
 
+async function loadErrors() {
+  const list = document.querySelector("#admin-error-list");
+  if (!list) return;
+  try {
+    const data = await rpc("admin_list_errors");
+    list.replaceChildren();
+    if (!data?.length) return setPanelMessage(list, "No errors recorded. Nice.", "empty");
+    data.forEach((e) => {
+      const card = createElement("article", { className: "request-card card-surface" });
+      card.append(
+        createElement("p", { className: "eyebrow", text: `${e.page || "?"} · ${formatDateTime(e.created_at)}` }),
+        createElement("h3", { text: e.message || "Unknown error" }),
+        createElement("p", { className: "request-message", text: `${e.detail || ""}\n${e.user_agent || ""}` })
+      );
+      list.append(card);
+    });
+  } catch (error) {
+    setPanelMessage(list, /admin_list_errors/.test(String(error?.message)) ? "Error logging isn't set up yet. Run supabase/migrations/003_error_log.sql in Supabase." : friendlyError(error, "Could not load errors."), "error");
+  }
+}
+
+async function downloadBackup(button) {
+  try {
+    setBusy(button, true, "Preparing…");
+    const data = await rpc("admin_export_backup");
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = createElement("a", { attrs: { href: url, download: `pulsebridge-backup-${new Date().toISOString().slice(0, 10)}.json` } });
+    document.body.append(link);
+    link.click();
+    link.remove();
+    window.setTimeout(() => URL.revokeObjectURL(url), 2000);
+    showToast("Backup downloaded. Keep it private.", "success");
+  } catch (error) {
+    showToast(/admin_export_backup/.test(String(error?.message)) ? "Backups aren't set up yet. Run supabase/migrations/003_error_log.sql in Supabase." : friendlyError(error, "Could not create the backup."), "error");
+  } finally {
+    setBusy(button, false);
+  }
+}
+
 function init() {
   if (!document.querySelector("#admin-request-list")) return;
   const reloadAll = () => {
     loadRequests(reloadAll);
     loadDonors(reloadAll);
     loadBlocked(reloadAll);
+    loadErrors();
   };
+  document.querySelector("#download-backup")?.addEventListener("click", (event) => downloadBackup(event.currentTarget));
+  document.querySelector("#clear-errors")?.addEventListener("click", async (event) => {
+    const button = event.currentTarget;
+    if (!(await confirmDialog({ title: "Clear the error list?", message: "This removes all recorded errors.", confirmLabel: "Clear" }))) return;
+    try {
+      setBusy(button, true, "Clearing…");
+      await rpc("admin_clear_errors");
+      loadErrors();
+    } catch (error) {
+      showToast(friendlyError(error), "error");
+    } finally {
+      setBusy(button, false);
+    }
+  });
   let started = false;
   onAuth((user) => {
     if (user && window.PulseBridgeAuth?.isAdmin?.(user) && !started) {

@@ -10,6 +10,16 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="PulseBridge">
+  <link rel="canonical" href="https://bhavex.github.io/pulsebridge/donate.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="PulseBridge">
+  <meta property="og:title" content="Become a donor — PulseBridge">
+  <meta property="og:description" content="Register as a blood donor on PulseBridge and decide who gets your number.">
+  <meta property="og:url" content="https://bhavex.github.io/pulsebridge/donate.html">
+  <meta property="og:image" content="https://bhavex.github.io/pulsebridge/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
   <title>Become a donor — PulseBridge</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="pulsebridge-logo.svg" type="image/svg+xml">
@@ -18,12 +28,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/theme.css" id="theme-css">
+  <script src="js/theme-init.js"></script>
   <script src="js/vendor/supabase.js" defer></script>
 </head>
 <body data-page="donate" data-guard="signed-in">
+  <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header"><div class="shell"><nav id="site-nav" aria-label="Primary navigation"></nav></div></header>
-  <main><div class="shell page-header page-header-compact"><p class="eyebrow">For donors</p><h1>Your donor page.</h1><p>Your phone number is never shown in search. You see every request with its hospital slip and choose whether to share your number.</p></div>
+  <main id="main"><div class="shell page-header page-header-compact"><p class="eyebrow">For donors</p><h1>Your donor page.</h1><p>Your phone number is never shown in search. You see every request with its hospital slip and choose whether to share your number.</p></div>
     <div class="shell guard-state" data-guard-message hidden><div class="card-surface guard-card"><span class="notice-symbol" aria-hidden="true">→</span><div><h2>Sign in to register as a donor.</h2><p>Use your Google account so only you can manage your donor profile.</p><a class="button button-small" href="login.html?next=donate.html">Sign in with Google</a></div></div></div>
     <div class="shell content-stack" data-gated-content hidden>
       <div id="donor-loading" class="panel-message panel-message-loading">Loading your donor profile…</div>

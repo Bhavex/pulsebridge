@@ -10,6 +10,16 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="PulseBridge">
+  <link rel="canonical" href="https://bhavex.github.io/pulsebridge/privacy.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="PulseBridge">
+  <meta property="og:title" content="Privacy policy — PulseBridge">
+  <meta property="og:description" content="How PulseBridge collects, protects and shares donor and recipient information.">
+  <meta property="og:url" content="https://bhavex.github.io/pulsebridge/privacy.html">
+  <meta property="og:image" content="https://bhavex.github.io/pulsebridge/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
   <title>Privacy policy — PulseBridge</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="pulsebridge-logo.svg" type="image/svg+xml">
@@ -18,12 +28,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/theme.css" id="theme-css">
+  <script src="js/theme-init.js"></script>
   <script src="js/vendor/supabase.js" defer></script>
 </head>
 <body data-page="privacy">
+  <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header"><div class="shell"><nav id="site-nav" aria-label="Primary navigation"></nav></div></header>
-  <main><div class="shell policy-layout"><div class="policy-intro"><p class="eyebrow">Clear by design</p><h1>Privacy policy.</h1><p>PulseBridge helps people connect without turning a donor list into a public contact list. This plain-language summary explains what we collect and who can see it.</p><div class="policy-updated">Version 2.0 · Review date: to be filled in before launch.</div></div><article class="policy-card card-surface">
+  <main id="main"><div class="shell policy-layout"><div class="policy-intro"><p class="eyebrow">Clear by design</p><h1>Privacy policy.</h1><p>PulseBridge helps people connect without turning a donor list into a public contact list. This plain-language summary explains what we collect and who can see it.</p><div class="policy-updated">Version 2.0 · Last updated 8 November 2026</div></div><article class="policy-card card-surface">
 <section><span class="policy-number">01</span><h2>What we collect</h2><p>Sign-in uses Google through Supabase Authentication, which gives us your Google name, email and a user ID. <strong>Donors</strong> give us their name, age, blood group, phone number, city, state, a nearby hospital, and optionally their last donation date and donation registration number. <strong>Recipients</strong> give us the patient's name, blood group needed, units, hospital, required-by date, their own name and phone, an optional message, and a photo or PDF of the hospital's blood requisition slip.</p></section>
 <section><span class="policy-number">02</span><h2>What appears in search</h2><p>Search shows only a donor's first name and last initial, age, blood group, city, state, nearby hospital, whether they are eligible to donate now, and roughly when they last donated. Phone numbers, emails, full names and registration numbers never appear in search. Search is limited to signed-in users and is rate-limited to stop copying of the list.</p></section>
 <section><span class="policy-number">03</span><h2>When phone numbers are shared</h2><p>A donor's phone number is shared with a recipient only after that donor accepts that recipient's request, and the recipient's number is shared with the donor at the same time. Each time a number is viewed it is logged. The hospital slip is visible only to the recipient who uploaded it, the donor it was sent to while the request is open, and PulseBridge admins.</p></section>

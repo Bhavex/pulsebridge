@@ -1,6 +1,6 @@
 import { supabase, supabaseReady } from "./supabase-config.js";
 import { onAuth } from "./auth.js";
-import { createElement, friendlyError, readSession, setBusy, setPanelMessage, writeSession } from "./ui.js";
+import { createElement, friendlyError, mapsLink, readSession, setBusy, setPanelMessage, writeSession } from "./ui.js";
 
 const SEARCH_KEY = "pb-last-search";
 let lastResults = [];
@@ -61,6 +61,7 @@ function donorCard(donor, query) {
     writeSession("pb-selected-donor", { ...donor, needed: query.bloodGroup || donor.blood_group, city: donor.city });
     window.location.href = `contact-request.html?donorId=${encodeURIComponent(donor.id)}`;
   });
+  if (donor.hospital) chips.append(mapsLink([donor.hospital, donor.city, donor.state], "Map"));
   card.append(header, chips, details, action);
   return card;
 }

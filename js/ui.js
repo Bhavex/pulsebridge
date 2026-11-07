@@ -114,11 +114,69 @@ export function isValidPhone(phone = "") {
 export function contactButtons(phone) {
   const digits = phoneDigits(phone);
   const wrap = createElement("div", { className: "request-actions" });
+  const copy = createElement("button", { className: "button button-small button-ghost", text: "Copy number", attrs: { type: "button" } });
+  copy.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(`+${digits}`);
+      copy.textContent = "Copied";
+      window.setTimeout(() => { copy.textContent = "Copy number"; }, 1600);
+    } catch {
+      showToast(`Number: +${digits}`, "info");
+    }
+  });
   wrap.append(
     createElement("a", { className: "button button-small", text: "Call", attrs: { href: `tel:+${digits}` } }),
-    createElement("a", { className: "button button-small button-outline", text: "WhatsApp", attrs: { href: `https://wa.me/${digits}`, target: "_blank", rel: "noopener noreferrer" } })
+    createElement("a", { className: "button button-small button-outline", text: "WhatsApp", attrs: { href: `https://wa.me/${digits}`, target: "_blank", rel: "noopener noreferrer" } }),
+    copy
   );
   return wrap;
+}
+
+export function mapsLink(place, label = "Directions") {
+  const query = [place].flat().filter(Boolean).join(", ");
+  return createElement("a", { className: "text-button maps-link", text: `${label} ↗`, attrs: { href: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`, target: "_blank", rel: "noopener noreferrer" } });
+}
+
+function openDialog({ title, message, confirmLabel = "Confirm", cancelLabel = "Cancel", danger = false, input = null }) {
+  return new Promise((resolve) => {
+    const dialog = createElement("dialog", { className: "pb-dialog", attrs: { "aria-labelledby": "pb-dialog-title" } });
+    const form = createElement("form", { attrs: { method: "dialog" } });
+    form.append(createElement("h2", { text: title, attrs: { id: "pb-dialog-title" } }));
+    if (message) form.append(createElement("p", { text: message }));
+    let field = null;
+    if (input) {
+      field = createElement(input.multiline ? "textarea" : "input", { attrs: { maxlength: input.maxLength || 300, placeholder: input.placeholder || "", rows: input.multiline ? 3 : null, "aria-label": input.label || title } });
+      form.append(field);
+    }
+    const actions = createElement("div", { className: "pb-dialog-actions" });
+    const cancel = createElement("button", { className: "button button-small button-ghost", text: cancelLabel, attrs: { type: "button", value: "cancel" } });
+    const ok = createElement("button", { className: `button button-small${danger ? " button-danger" : ""}`, text: confirmLabel, attrs: { type: "submit", value: "ok" } });
+    actions.append(cancel, ok);
+    form.append(actions);
+    dialog.append(form);
+    document.body.append(dialog);
+    let result = input ? null : false;
+    cancel.addEventListener("click", () => dialog.close());
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      result = input ? field.value.trim() : true;
+      dialog.close();
+    });
+    dialog.addEventListener("close", () => {
+      dialog.remove();
+      resolve(result);
+    });
+    dialog.showModal();
+    (field || ok).focus();
+  });
+}
+
+export function confirmDialog(options) {
+  return openDialog(options);
+}
+
+export function promptDialog(options) {
+  return openDialog({ ...options, input: options.input || {} });
 }
 
 export function statusPill(status, overrides = {}) {
@@ -165,8 +223,13 @@ function renderNav(user) {
       ${link("privacy.html", "Privacy")}
       <span class="nav-divider" aria-hidden="true"></span>
       ${isAdmin ? link("admin.html", "Admin console", "nav-admin-link") : ""}
+      ${document.body.classList.contains("home-3d") ? "" : `<button class="theme-toggle" type="button" data-action="toggle-theme" aria-label="Switch light or dark theme">${isLight() ? "☾ Dark" : "☀ Light"}</button>`}
       ${user ? `<button class="button button-small button-outline" type="button" data-action="sign-out">Sign out</button>` : `<a class="button button-small button-outline" href="login.html">Sign in</a>`}
     </div>`;
+  nav.querySelector("[data-action=toggle-theme]")?.addEventListener("click", () => {
+    setTheme(isLight() ? "dark" : "light");
+    renderNav(user);
+  });
   const toggle = nav.querySelector(".nav-toggle");
   const links = nav.querySelector(".nav-links");
   toggle?.addEventListener("click", () => {
@@ -183,7 +246,7 @@ function renderFooter() {
   footer.innerHTML = `<div class="shell footer-grid">
     <div><a class="footer-brand" href="index.html">Pulse<span>Bridge</span></a><p class="footer-copy">A privacy-first way to move blood donation closer to the people who need it.</p></div>
     <div class="footer-links"><a href="find-donors.html">Find donors</a><a href="donate.html">Become a donor</a><a href="about.html">Our mission</a><a href="privacy.html">Privacy policy</a></div>
-    <div class="footer-meta"><span>In an emergency, call 108 or go to the nearest hospital.</span><span>© ${new Date().getFullYear()} PulseBridge</span></div>
+    <div class="footer-meta"><span>In an emergency, call 108 or go to the nearest hospital.</span><span>© ${new Date().getFullYear()} PulseBridge</span><a href="sitemap.xml">Sitemap</a></div>
   </div>`;
 }
 
@@ -205,6 +268,72 @@ function rotateQuotes() {
   };
   renderQuote();
   window.setInterval(renderQuote, 5200);
+}
+
+function isLight() {
+  return document.documentElement.dataset.theme === "light";
+}
+
+function setTheme(mode) {
+  const link = document.querySelector("#theme-css");
+  if (link) link.disabled = mode === "light";
+  document.documentElement.dataset.theme = mode;
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.content = mode === "light" ? "#c62828" : "#0a0a0c";
+  try {
+    window.localStorage.setItem("pb-theme", mode);
+  } catch {
+    return;
+  }
+}
+
+function renderFloatingUI() {
+  if (!document.querySelector(".scroll-progress")) {
+    const bar = createElement("div", { className: "scroll-progress", attrs: { "aria-hidden": "true" } });
+    document.body.append(bar);
+    const update = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.transform = `scaleX(${max > 0 ? Math.min(1, window.scrollY / max) : 0})`;
+      topButton.classList.toggle("is-visible", window.scrollY > 700);
+    };
+    const topButton = createElement("button", { className: "to-top", text: "↑", attrs: { type: "button", "aria-label": "Back to top" } });
+    topButton.addEventListener("click", () => window.scrollTo({ top: 0, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" }));
+    const emergency = createElement("a", { className: "emergency-fab", attrs: { href: "tel:108", "aria-label": "Emergency: call 108" } });
+    emergency.append(createElement("span", { className: "emergency-dot", attrs: { "aria-hidden": "true" } }), createElement("span", { text: "Emergency 108" }));
+    document.body.append(topButton, emergency);
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update, { passive: true });
+    update();
+  }
+}
+
+let errorCount = 0;
+
+async function reportError(message, detail) {
+  if (errorCount >= 5) return;
+  errorCount += 1;
+  try {
+    const { supabase } = await import("./supabase-config.js");
+    await supabase?.rpc("log_client_error", {
+      p_page: window.location.pathname.split("/").pop() || "index.html",
+      p_message: String(message || "").slice(0, 500),
+      p_detail: String(detail || "").slice(0, 1500),
+      p_user_agent: navigator.userAgent.slice(0, 300)
+    });
+  } catch {
+    return;
+  }
+}
+
+function initErrorReporting() {
+  window.addEventListener("error", (event) => {
+    if (!event.message) return;
+    reportError(event.message, `${event.filename || ""}:${event.lineno || ""}:${event.colno || ""} ${event.error?.stack || ""}`);
+  });
+  window.addEventListener("unhandledrejection", (event) => {
+    const reason = event.reason;
+    reportError(reason?.message || String(reason), reason?.stack || "");
+  });
 }
 
 let deferredInstall = null;
@@ -256,6 +385,8 @@ function initSharedUI() {
   renderFooter();
   rotateQuotes();
   initPwa();
+  renderFloatingUI();
+  initErrorReporting();
   document.querySelectorAll("[data-current-year]").forEach((node) => { node.textContent = String(new Date().getFullYear()); });
   window.addEventListener("pulsebridge:auth", (event) => renderNav(event.detail?.user || null));
 }

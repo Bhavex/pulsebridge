@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-page-kind="home">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -10,6 +10,16 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="PulseBridge">
+  <link rel="canonical" href="https://bhavex.github.io/pulsebridge/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="PulseBridge">
+  <meta property="og:title" content="PulseBridge — Blood donation, connected">
+  <meta property="og:description" content="PulseBridge connects people who need blood with willing donors, while keeping donor phone numbers private until the donor says yes.">
+  <meta property="og:url" content="https://bhavex.github.io/pulsebridge/">
+  <meta property="og:image" content="https://bhavex.github.io/pulsebridge/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
   <title>PulseBridge — Blood donation, connected</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="pulsebridge-logo.svg" type="image/svg+xml">
@@ -18,18 +28,21 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/theme.css" id="theme-css">
+  <script src="js/theme-init.js"></script>
   <link rel="stylesheet" href="css/home.css">
   <script src="js/vendor/supabase.js" defer></script>
   <script src="js/vendor/gsap.min.js" defer></script>
   <script src="js/vendor/ScrollTrigger.min.js" defer></script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","name":"PulseBridge","url":"https://bhavex.github.io/pulsebridge/","description":"Privacy-first blood donor finder for India"},{"@type":"Organization","name":"PulseBridge","url":"https://bhavex.github.io/pulsebridge/","logo":"https://bhavex.github.io/pulsebridge/icons/icon-512.png","areaServed":"IN"}]}</script>
 </head>
 <body data-page="home" class="home-3d">
+  <a class="skip-link" href="#main">Skip to content</a>
   <canvas id="scene" aria-hidden="true"></canvas>
   <div class="scene-fallback" aria-hidden="true"><svg viewBox="0 0 220 250"><path d="M110 13C83 50 49 84 49 140a61 61 0 0 0 122 0c0-56-34-90-61-127Z" fill="currentColor"/><path d="M64 145h24l12-29 22 58 13-29h29" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="8"/></svg></div>
   <header class="site-header"><div class="shell"><nav id="site-nav" aria-label="Primary navigation"></nav></div></header>
   <nav class="chapter-rail" aria-label="Page sections"><a href="#hero" data-rail="0"><span>Start</span></a><a href="#search" data-rail="1"><span>Search</span></a><a href="#request" data-rail="2"><span>Request</span></a><a href="#connect" data-rail="3"><span>Connect</span></a><a href="#donate" data-rail="4"><span>Donate</span></a></nav>
-  <main id="story" class="story">
+  <main id="main" class="story">
     <section id="hero" class="chapter chapter-hero" data-chapter="0">
       <div class="shell">
         <div class="hero-copy-3d">
@@ -102,10 +115,27 @@
       </div>
     </section>
 
+    <section id="faq" class="section faq-section">
+      <div class="shell faq-layout">
+        <div class="reveal"><p class="eyebrow">Questions</p><h2>Things people ask before they trust us.</h2><p class="faq-intro">Still unsure? Read the <a class="inline-link" href="privacy.html">privacy policy</a>.</p></div>
+        <div class="faq-list">
+          <details class="faq-item reveal"><summary>Who can see my phone number?</summary><p>Nobody, until you accept a specific request. Search never shows phone numbers. When you accept, only that one recipient sees your number, and you see theirs. Every time a number is opened, it's logged.</p></details>
+          <details class="faq-item reveal"><summary>How do I know a request is real?</summary><p>Every request must include a photo or PDF of the hospital's blood requisition slip. You can open it before deciding. If anything looks wrong, or someone asks for money, tap “Report as fake” and the PulseBridge team will review and can block the account.</p></details>
+          <details class="faq-item reveal"><summary>How fast will a donor reply?</summary><p>Donors have up to 72 hours to accept or decline. If they don't answer, the request expires so you can try someone else. For urgent needs, send requests to several donors at once.</p></details>
+          <details class="faq-item reveal"><summary>Does PulseBridge check blood compatibility?</summary><p>Search uses the standard red-cell compatibility chart to suggest donors, but only the hospital or blood bank can confirm compatibility and whether a donor is fit to donate.</p></details>
+          <details class="faq-item reveal"><summary>Is it free? Should I ever pay?</summary><p>PulseBridge is free. Blood donation in India is voluntary. Never pay or accept money for blood. Report anyone who asks.</p></details>
+          <details class="faq-item reveal"><summary>How often will I be asked if I'm still available?</summary><p>Every 30 days. If you don't confirm within about a week after that, you're hidden from search until you confirm again on your donor page. You can also pause any time.</p></details>
+          <details class="faq-item reveal"><summary>Can I delete my data?</summary><p>Yes. Donors can permanently delete their profile from the donor page. Recipients can cancel requests. For anything else, contact the PulseBridge team.</p></details>
+          <details class="faq-item reveal"><summary>Is this an emergency service?</summary><p>No. In an emergency, call 108 or go to the nearest hospital straight away. PulseBridge helps you find willing donors alongside the hospital's own process.</p></details>
+        </div>
+      </div>
+    </section>
+
     <section class="section notice-section"><div class="shell notice-card reveal"><div class="notice-symbol" aria-hidden="true">!</div><div><p class="eyebrow">Please keep in mind</p><h2>PulseBridge connects people. Professionals guide care.</h2><p>Blood compatibility, donation eligibility and treatment must always be confirmed by the hospital or blood bank. In an emergency, call 108 or go to the nearest hospital. Never pay anyone for blood.</p></div><a class="button button-light" href="privacy.html">Read the privacy policy</a></div></section>
 
     <section class="cta-section"><div class="shell cta-inner reveal"><div><p class="eyebrow eyebrow-light">A clearer next step</p><h2>Ready to move help closer?</h2></div><a class="button button-white" href="find-donors.html">Find donors <span aria-hidden="true">↗</span></a></div></section>
   </main>
+  <div class="mobile-cta" role="region" aria-label="Quick actions"><a class="button" href="find-donors.html">I need blood</a><a class="button button-ghost" href="donate.html">Donate</a></div>
   <footer id="site-footer" class="site-footer"></footer>
   <script type="module" src="js/ui.js"></script><script type="module" src="js/auth.js"></script><script type="module" src="js/home3d.js"></script>
 </body>

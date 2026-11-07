@@ -1,6 +1,6 @@
 import { supabase, supabaseReady, SLIP_BUCKET } from "./supabase-config.js";
 import { onAuth, displayName } from "./auth.js";
-import { contactButtons, createElement, formatDate, formatDateTime, friendlyError, isValidPhone, readSession, setBusy, setPanelMessage, showToast, statusPill, todayISO } from "./ui.js";
+import { contactButtons, createElement, formatDate, formatDateTime, friendlyError, isValidPhone, mapsLink, readSession, setBusy, setPanelMessage, showToast, statusPill, todayISO } from "./ui.js";
 
 const MAX_BYTES = 5 * 1024 * 1024;
 
@@ -200,6 +200,7 @@ function myRequestCard(request, reload) {
   }
   card.append(head, meta);
   if (note.textContent) card.append(note);
+  if (request.hospital_name && ["pending", "accepted"].includes(request.status)) card.append(mapsLink([request.hospital_name, request.hospital_city], "Hospital directions"));
   if (actions.childElementCount) card.append(actions);
   return card;
 }

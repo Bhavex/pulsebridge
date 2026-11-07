@@ -68,3 +68,7 @@ input:focus, select:focus, textarea:focus { box-shadow: 0 0 0 4px rgba(229, 56, 
 .request-flow { grid-template-columns: minmax(0, 1fr); }
 .request-flow > *, .form-grid > * { min-width: 0; }
 input[type=file] { max-width: 100%; }
+.faq-item[open] { border-color: #5b2427; }
+.faq-item { background: #121316; }
+.theme-toggle { border-color: #2e2f36; }
+.to-top { background: #15161a; border-color: #2e2f36; }

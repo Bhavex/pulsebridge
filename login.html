@@ -10,6 +10,16 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="PulseBridge">
+  <link rel="canonical" href="https://bhavex.github.io/pulsebridge/login.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="PulseBridge">
+  <meta property="og:title" content="Sign in — PulseBridge">
+  <meta property="og:description" content="Sign in to PulseBridge with Google to find donors or register as a donor.">
+  <meta property="og:url" content="https://bhavex.github.io/pulsebridge/login.html">
+  <meta property="og:image" content="https://bhavex.github.io/pulsebridge/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
   <title>Sign in — PulseBridge</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="pulsebridge-logo.svg" type="image/svg+xml">
@@ -18,12 +28,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/theme.css" id="theme-css">
+  <script src="js/theme-init.js"></script>
   <script src="js/vendor/supabase.js" defer></script>
 </head>
 <body data-page="login">
+  <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header"><div class="shell"><nav id="site-nav" aria-label="Primary navigation"></nav></div></header>
-  <main class="auth-page"><div class="shell auth-layout">
+  <main id="main" class="auth-page"><div class="shell auth-layout">
     <section class="auth-intro"><p class="eyebrow">A private place to begin</p><h1>Sign in, then make a safer connection.</h1><p>Google sign-in keeps PulseBridge for real people. It only shares your Google name and email with us.</p><div class="role-cards"><a class="role-card" href="login.html?next=find-donors.html"><strong>I need blood</strong><span>Search donors and send a verified request.</span></a><a class="role-card" href="login.html?next=donate.html"><strong>I want to donate</strong><span>Register and decide who gets your number.</span></a></div></section>
     <section class="auth-card card-surface"><div class="auth-card-top"><span class="card-kicker">PulseBridge access</span><span class="secure-mark">Protected</span></div><div data-signed-out-panel><h2>Continue with Google</h2><p>One account works for both finding donors and donating.</p><button class="button button-full google-button" type="button" data-action="google-sign-in"><span class="google-g" aria-hidden="true">G</span> Sign in with Google</button><p class="small-note">We don't create a separate PulseBridge password.</p></div><div data-signed-in-panel hidden><span class="success-icon" aria-hidden="true">✓</span><h2>You're signed in.</h2><p data-login-status>Signed in to PulseBridge.</p><div class="auth-card-actions"><a class="button button-full" href="find-donors.html">Find donors</a><a class="button button-full button-outline" href="donate.html">My donor page</a></div></div><div class="setup-note"><strong>Privacy note</strong><span>Donor phone numbers are only shared after the donor accepts a request.</span></div></section>
   </div></main>
