@@ -1,5 +1,5 @@
-export const SUPABASE_URL = "https://jvsemmrbyvdzsllukhmh.supabase.co";
-export const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_nNuehqQDpyI9iZG6G2a7vg_uxxRgH8E";
+export const SUPABASE_URL = "https://pjzvhztpixivjotpltwt.supabase.co";
+export const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_tLbI8SpoZBKiTmZEL6dq1w_Qa5wa4SV";
 export const SLIP_BUCKET = "requisition-slips";
 
 const library = window.supabase;
