@@ -1,53 +1,42 @@
 # PulseBridge
 
-PulseBridge is a blood donor finder built with plain HTML, CSS and JavaScript, with Supabase for Google sign-in and the database. There is no Node.js, npm or build step.
+PulseBridge is a blood donor finder built with plain HTML, CSS and JavaScript, with Supabase for Google sign-in, the database and file storage. There is no build step. It also installs as an app on phones (PWA).
 
-Signed-in receivers search the public donor directory by blood group, city and state, then send a contact request. Donor phone numbers and emails sit in a separate private table that only admins can read. The admin follows up manually.
+## How it works
 
-## Project layout
+**Recipients** sign in with Google, search donors by blood group (optionally including compatible groups), city, state and nearby hospital, and sort by best match, hospital, city, most recently confirmed or age. They send a request with the patient's details and a photo or PDF of the hospital's blood requisition slip.
 
-```
-index.html, login.html, find-donors.html, contact-request.html, admin.html, about.html, privacy.html
-pulsebridge-logo.svg
-css/style.css
-js/supabase-config.js   Supabase URL and publishable key
-js/auth.js              Google sign-in, sign-out, page guards, admin check
-js/donors.js            Donor search and admin donor management
-js/requests.js          Contact requests and the admin request queue
-js/ui.js                Shared navigation, footer and helpers
-supabase/schema.sql     Tables, security policies and admin functions
-```
+**Donors** sign in and register themselves: name, age, blood group, phone, nearby hospital, city, state, and optionally their last donation date and donation registration number. They see each request with its slip and choose **Accept**, **I can't help** or **Report as fake**.
 
-## Database
+**Contact sharing:** when a donor accepts, the recipient sees the donor's phone number under My requests and the donor sees the recipient's number. Nobody else ever does. Pending requests expire after 72 hours.
 
-| Table | Contents | Who can access |
-| --- | --- | --- |
-| `donor_directory` | name, age, blood group, city, state, availability | Signed-in users can read. Only admins can change it. |
-| `donor_private` | phone, email, consent | Admins only |
-| `contact_requests` | requester details, message, urgency, status | Signed-in users can create their own. Admins can read, change status and delete. |
-| `admin_emails` | emails of admin accounts | Nobody through the website. Edit it in the Supabase dashboard. |
+**Monthly check:** every 30 days donors get an email with a one-tap "Yes, I'm still available" link. Donors who haven't confirmed within 37 days are hidden from search until they confirm.
 
-Extra protections:
+## Security model
 
-- Signed-out visitors cannot read anything.
-- A contact request always records the real signed-in user and email, and always starts as `pending`.
-- Admins can change only the `status` of a request.
-- Each user can send at most 5 contact requests per hour.
-- Donor saves and deletes go through admin-only database functions, so the public and private records stay in sync.
+All data access goes through database functions. Signed-in users cannot read any table directly.
 
-## Adding an admin
+- Search returns only first name + last initial, age, blood group, city, state, hospital and eligibility. Never phone, email, full name or registration number.
+- Search is limited to 40 per hour per account. Requests are limited to 5 per hour and 15 per day.
+- Phone numbers are released only by `get_request_contact`, only for accepted requests, only to the two people involved, and every view is logged.
+- Hospital slips live in a private storage bucket. Only the uploader, the donor the request was sent to (while it's open) and admins can open them, through 2-minute signed links.
+- Donors can report requests. Admins can block accounts; blocked accounts can't search, upload or request.
+- Pages ship a strict Content Security Policy and load the Supabase library from this repo, not a CDN.
 
-In Supabase, open the SQL Editor and run:
+The database rules are tested by `supabase/tests/test_security.py` (121 checks).
 
-```sql
-insert into public.admin_emails (email) values ('their.email@gmail.com');
-```
+## Setup (one time)
 
-Use lowercase. The person becomes an admin the next time they load a page.
+1. **Run the database migration.** In Supabase, open SQL Editor, paste all of `supabase/migrations/002_donor_portal.sql` and run it. It's safe to run more than once. If this is a brand-new project, run `supabase/schema.sql` first.
+2. **Google sign-in.** Authentication → Providers → Google must be on. Under Authentication → URL Configuration add `https://bhavex.github.io/pulsebridge/` and `http://localhost:8000` as redirect URLs.
+3. **Add an admin.** In SQL Editor: `insert into public.admin_emails (email) values ('your.email@gmail.com');` (lowercase).
+4. **Monthly emails** (can be done later):
+   - Create a free account at resend.com and get an API key.
+   - Deploy the function: `supabase functions deploy monthly-availability --no-verify-jwt`
+   - Set secrets: `supabase secrets set RESEND_API_KEY=... CRON_SECRET=<long random text> SITE_URL=https://bhavex.github.io/pulsebridge EMAIL_FROM="PulseBridge <you@yourdomain>"`
+   - Open `supabase/cron/monthly_availability.sql`, replace `YOUR-PROJECT-REF` and `YOUR-CRON-SECRET`, and run it in SQL Editor. It runs daily at 10:00 IST and emails only donors who are due.
 
 ## Running locally
-
-Google sign-in does not work when the HTML files are opened directly. Run a small local server in the project folder:
 
 ```
 python3 -m http.server 8000
@@ -55,18 +44,22 @@ python3 -m http.server 8000
 
 Then open http://localhost:8000.
 
-## Testing checklist (use fake donors only)
+## Testing the database rules locally
 
-1. As admin: add, edit and delete a donor.
-2. As admin: the donor table shows the private phone number.
-3. With a second Google account: search for donors and send a contact request.
-4. As admin: change that request's status.
-5. The second account cannot open the admin page or see any phone numbers.
-6. Signed out: the search, request and admin pages send you to sign in.
+Needs PostgreSQL 15+ and `pip install psycopg2-binary`:
+
+```
+createdb pb
+psql -d pb -f supabase/tests/local_supabase_stubs.sql
+psql -d pb -f supabase/schema.sql
+psql -d pb -f supabase/migrations/002_donor_portal.sql
+python3 supabase/tests/test_security.py
+```
+
+Edit the connection line at the top of the test file to match your database.
 
 ## Before real donors are added
 
-- Fill in the review date on the Privacy page.
-- Add a contact email for donors who want to be removed, and decide how long data is kept.
-- Have the consent wording and the site reviewed by a responsible adult or blood donation professional.
-- Blood compatibility and eligibility must always be confirmed by qualified medical professionals.
+- Fill in the review date and a contact email on the Privacy page.
+- Have the consent wording and the site reviewed by a blood bank or medical professional.
+- Blood compatibility and eligibility must always be confirmed by the hospital or blood bank.

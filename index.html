@@ -2,44 +2,54 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="PulseBridge helps people find potential blood donors while keeping donor contact details private.">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://*.googleusercontent.com; connect-src 'self' https://*.supabase.co wss://*.supabase.co; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; manifest-src 'self'; worker-src 'self'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="description" content="PulseBridge connects people who need blood with willing donors, while keeping donor phone numbers private until the donor says yes.">
+  <meta name="theme-color" content="#c62828">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="PulseBridge">
   <title>PulseBridge — Blood donation, connected</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="pulsebridge-logo.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <script src="js/vendor/supabase.js" defer></script>
 </head>
 <body data-page="home">
-  <div class="top-strip"><div class="shell top-strip-inner"><span class="status-dot"></span><span>Privacy-first donor connections</span><a href="privacy.html">See how your data is handled</a></div></div>
   <header class="site-header"><div class="shell"><nav id="site-nav" aria-label="Primary navigation"></nav></div></header>
+  <div class="top-strip"><div class="shell top-strip-inner"><span class="status-dot"></span><span>Donor numbers stay private until the donor says yes</span><a href="privacy.html">See how your data is handled</a></div></div>
   <main>
     <section class="hero-section"><div class="shell hero-grid">
       <div class="hero-copy">
         <p class="eyebrow">Blood donation, made more human</p>
         <h1>When every minute matters, <em>make the bridge shorter.</em></h1>
-        <p class="hero-lede">PulseBridge helps people who need blood find potential donors by group and location—without putting a donor’s personal contact details on display.</p>
-        <div class="hero-actions"><a class="button" href="find-donors.html">Find potential donors <span aria-hidden="true">↗</span></a><a class="button button-ghost" href="login.html">Sign in with Google</a></div>
-        <p class="microcopy"><span class="micro-icon" aria-hidden="true">✓</span> Donor details stay private. The admin team handles the introduction.</p>
+        <p class="hero-lede">Find willing blood donors by blood group, city and nearby hospital. Donors choose who gets their number, and every request is backed by a hospital requisition slip.</p>
+        <div class="hero-actions"><a class="button" href="find-donors.html">I need blood <span aria-hidden="true">↗</span></a><a class="button button-ghost" href="donate.html">I want to donate</a></div>
+        <p class="microcopy"><span class="micro-icon" aria-hidden="true">✓</span> Install it as an app: open the menu in your browser and tap “Add to Home screen”.</p>
       </div>
       <div class="hero-visual" aria-label="A visual representation of a donor connection">
         <div class="signal-orbit orbit-one"></div><div class="signal-orbit orbit-two"></div>
         <div class="hero-drop"><svg viewBox="0 0 220 250" aria-hidden="true"><path d="M110 13C83 50 49 84 49 140a61 61 0 0 0 122 0c0-56-34-90-61-127Z" fill="currentColor"/><path d="M64 145h24l12-29 22 58 13-29h29" fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="8"/></svg></div>
-        <div class="floating-note note-top"><span class="note-icon">+</span><div><strong>Potential match</strong><span>O+ · Pune</span></div></div>
-        <div class="floating-note note-bottom"><span class="avatar-chip">AR</span><div><strong>Connection protected</strong><span>Contact details stay private</span></div></div>
+        <div class="floating-note note-top"><span class="note-icon">+</span><div><strong>Potential match</strong><span>O+ · near Sassoon Hospital</span></div></div>
+        <div class="floating-note note-bottom"><span class="avatar-chip">AR</span><div><strong>Donor accepted</strong><span>Numbers shared both ways</span></div></div>
         <div class="hero-stamp"><strong>01</strong><span>Search<br>with care</span></div>
       </div>
     </div></section>
 
     <section class="quote-band"><div class="shell quote-layout"><div><p class="eyebrow eyebrow-light">A note worth passing on</p><div class="quote-mark">“</div></div><div class="quote-rotator" data-quote-rotator><blockquote data-quote-text>A single donation can be the moment someone gets another tomorrow.</blockquote><cite data-quote-author>— PulseBridge community</cite></div><div class="quote-index"><span>03</span><span class="quote-line"></span><span>∞</span></div></div></section>
 
-    <section class="section section-intro"><div class="shell split-section"><div class="section-heading"><p class="eyebrow">Why this matters</p><h2>Help can feel closer, even before it arrives.</h2></div><div class="section-copy"><p>Finding a donor should not mean trading away someone’s privacy. PulseBridge gives receivers a focused way to search by blood group and place, then sends a respectful contact request to a human admin.</p><p>For donors, that means your phone number and email stay in a protected collection. For receivers, it means a clearer next step when the clock feels loud.</p><a class="inline-link" href="about.html">Read our mission <span aria-hidden="true">→</span></a></div></div></section>
+    <section class="section section-steps"><div class="shell"><div class="section-heading section-heading-wide"><p class="eyebrow">If you need blood</p><h2>Search, request, and let the donor say yes.</h2></div><div class="steps-grid"><article class="step-card"><span class="step-number">01</span><h3>Search donors</h3><p>Filter by the blood group you need, include compatible groups, and sort by nearby hospital or city.</p></article><article class="step-card step-card-accent"><span class="step-number">02</span><h3>Send a verified request</h3><p>Add the patient, hospital and a photo of the hospital's blood requisition slip so the donor knows it's real.</p></article><article class="step-card"><span class="step-number">03</span><h3>Connect when they accept</h3><p>When the donor accepts, you both see each other's phone number. Call, coordinate, and thank them.</p></article></div></div></section>
 
-    <section class="section section-steps"><div class="shell"><div class="section-heading section-heading-wide"><p class="eyebrow">The PulseBridge path</p><h2>Three simple steps. One thoughtful handoff.</h2></div><div class="steps-grid"><article class="step-card"><span class="step-number">01</span><h3>Search the signal</h3><p>Filter potential donors by blood group, city, and state from a directory built for clarity.</p></article><article class="step-card step-card-accent"><span class="step-number">02</span><h3>Send a request</h3><p>Share your name, phone, urgency, and a short message—never ask a donor to publish their details.</p></article><article class="step-card"><span class="step-number">03</span><h3>Let people bridge it</h3><p>The admin team sees the request and the protected donor contact details, then follows up manually.</p></article></div></div></section>
+    <section class="section section-intro"><div class="shell split-section"><div class="section-heading"><p class="eyebrow">If you want to donate</p><h2>Register once. Stay in control.</h2></div><div class="section-copy"><p>Add your blood group, city and the hospital near you where you can donate. Your phone number is never shown in search. You'll see each request, with the hospital slip, and decide yourself.</p><p>Once a month we'll check that you're still available, so people only find donors who can actually help. Pause or delete your profile any time.</p><a class="inline-link" href="donate.html">Become a donor <span aria-hidden="true">→</span></a></div></div></section>
 
-    <section class="section notice-section"><div class="shell notice-card"><div class="notice-symbol" aria-hidden="true">!</div><div><p class="eyebrow">Please keep in mind</p><h2>PulseBridge connects people. Professionals guide care.</h2><p>Blood compatibility, donation eligibility, and treatment decisions must always be confirmed by qualified medical professionals. Donors must be 18+ and must have consented to being listed.</p></div><a class="button button-light" href="privacy.html">Read the privacy policy</a></div></section>
+    <section class="section notice-section"><div class="shell notice-card"><div class="notice-symbol" aria-hidden="true">!</div><div><p class="eyebrow">Please keep in mind</p><h2>PulseBridge connects people. Professionals guide care.</h2><p>Blood compatibility, donation eligibility and treatment must always be confirmed by the hospital or blood bank. In an emergency, call 108 or go to the nearest hospital. Never pay anyone for blood.</p></div><a class="button button-light" href="privacy.html">Read the privacy policy</a></div></section>
 
-    <section class="cta-section"><div class="shell cta-inner"><div><p class="eyebrow eyebrow-light">A clearer next step</p><h2>Ready to move help closer?</h2></div><a class="button button-white" href="find-donors.html">Find potential donors <span aria-hidden="true">↗</span></a></div></section>
+    <section class="cta-section"><div class="shell cta-inner"><div><p class="eyebrow eyebrow-light">A clearer next step</p><h2>Ready to move help closer?</h2></div><a class="button button-white" href="find-donors.html">Find donors <span aria-hidden="true">↗</span></a></div></section>
   </main>
   <footer id="site-footer" class="site-footer"></footer>
   <script type="module" src="js/ui.js"></script><script type="module" src="js/auth.js"></script>

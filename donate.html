@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://*.googleusercontent.com; connect-src 'self' https://*.supabase.co wss://*.supabase.co; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; manifest-src 'self'; worker-src 'self'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="description" content="Register as a blood donor on PulseBridge and decide who gets your number.">
+  <meta name="theme-color" content="#c62828">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="PulseBridge">
+  <title>Become a donor — PulseBridge</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="pulsebridge-logo.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/vendor/supabase.js" defer></script>
+</head>
+<body data-page="donate" data-guard="signed-in">
+  <header class="site-header"><div class="shell"><nav id="site-nav" aria-label="Primary navigation"></nav></div></header>
+  <main><div class="shell page-header page-header-compact"><p class="eyebrow">For donors</p><h1>Your donor page.</h1><p>Your phone number is never shown in search. You see every request with its hospital slip and choose whether to share your number.</p></div>
+    <div class="shell guard-state" data-guard-message hidden><div class="card-surface guard-card"><span class="notice-symbol" aria-hidden="true">→</span><div><h2>Sign in to register as a donor.</h2><p>Use your Google account so only you can manage your donor profile.</p><a class="button button-small" href="login.html?next=donate.html">Sign in with Google</a></div></div></div>
+    <div class="shell content-stack" data-gated-content hidden>
+      <div id="donor-loading" class="panel-message panel-message-loading">Loading your donor profile…</div>
+
+      <section id="donor-dashboard" class="content-stack" hidden>
+        <div class="dashboard-grid">
+          <article id="donor-status" class="card-surface status-card">
+            <span class="card-kicker">Availability</span>
+            <h2 data-status-title>You're visible.</h2>
+            <p data-status-copy></p>
+            <div class="meter" aria-hidden="true"><span></span></div>
+            <label class="big-toggle"><span><strong>Available to donate</strong><small>Turn off to pause. You won't appear in search.</small></span><span class="switch-label"><input id="availability-toggle" type="checkbox"><span class="fake-switch" aria-hidden="true"></span></span></label>
+            <button id="confirm-available" class="button" type="button" hidden>Yes, I'm still available</button>
+          </article>
+          <article class="card-surface status-card">
+            <span class="card-kicker">Your details</span>
+            <dl id="donor-facts" class="profile-facts"></dl>
+            <button id="edit-profile" class="button button-small button-ghost" type="button">Edit my details</button>
+          </article>
+        </div>
+        <section class="admin-section"><div class="section-bar"><div><p class="eyebrow">Requests for you</p><h2>People asking for help</h2><p class="section-subtitle">Check the hospital slip. Accept only if you can donate. Report anything that looks fake, or anyone asking for money.</p></div></div><div id="incoming-list" class="request-list"></div></section>
+        <div class="danger-zone"><p><strong>Delete my donor profile.</strong> Removes your details and any requests sent to you, permanently.</p><button id="delete-profile" class="button button-small button-outline" type="button">Delete profile</button></div>
+      </section>
+
+      <section id="donor-register" hidden>
+        <form id="donor-form" class="card-surface form-card" data-mode="create">
+          <div class="form-heading"><span class="card-kicker">Donor registration</span><h2 id="donor-form-title">Register as a donor</h2><p>Only your first name, initial, age, blood group, city and nearby hospital appear in search.</p></div>
+          <div class="form-grid">
+            <label>Full name<input name="name" type="text" required maxlength="100" autocomplete="name" placeholder="Your full name"></label>
+            <label>Age<input name="age" type="number" min="18" max="65" required placeholder="18 to 65"></label>
+            <label>Blood group<select name="bloodGroup" required><option value="">Select</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option><option>O+</option><option>O-</option></select></label>
+            <label>Contact number (private)<input name="phone" type="tel" required maxlength="20" autocomplete="tel" inputmode="tel" placeholder="98765 43210"></label>
+            <label class="field-span-2">Nearby hospital where you can donate<input name="hospital" type="text" required maxlength="120" placeholder="e.g. Sassoon General Hospital"></label>
+            <label>City<input name="city" type="text" required maxlength="80" autocomplete="address-level2" placeholder="City"></label>
+            <label>State<input name="state" type="text" required maxlength="80" autocomplete="address-level1" placeholder="State"></label>
+            <label>Last donation date (optional)<input name="lastDonation" type="date"></label>
+            <label>Donation registration number (optional)<input name="registrationNumber" type="text" maxlength="40" placeholder="From your donor card, e.g. e-RaktKosh ID"></label>
+          </div>
+          <label class="consent-checkbox"><input name="consent" type="checkbox" required><span>I am 18–65, I agree to be listed as a blood donor on PulseBridge, and I understand my phone number is shared only with people whose requests I accept. I can pause or delete my profile any time.</span></label>
+          <div class="form-actions"><button class="button" type="submit">Save my donor profile <span aria-hidden="true">↗</span></button><button id="cancel-edit" class="button button-ghost" type="button" hidden>Cancel</button></div>
+        </form>
+      </section>
+    </div>
+  </main>
+  <footer id="site-footer" class="site-footer"></footer>
+  <script type="module" src="js/ui.js"></script><script type="module" src="js/auth.js"></script><script type="module" src="js/donor-portal.js"></script>
+</body>
+</html>

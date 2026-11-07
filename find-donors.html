@@ -1,14 +1,43 @@
 <!doctype html>
 <html lang="en">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Search potential blood donors by blood group and location on PulseBridge."><title>Find donors — PulseBridge</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="css/style.css"></head>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://*.googleusercontent.com; connect-src 'self' https://*.supabase.co wss://*.supabase.co; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; manifest-src 'self'; worker-src 'self'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="description" content="Search available blood donors by blood group, city and nearby hospital.">
+  <meta name="theme-color" content="#c62828">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="PulseBridge">
+  <title>Find donors — PulseBridge</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="pulsebridge-logo.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/vendor/supabase.js" defer></script>
+</head>
 <body data-page="find-donors" data-guard="signed-in">
   <header class="site-header"><div class="shell"><nav id="site-nav" aria-label="Primary navigation"></nav></div></header>
-  <main><div class="shell page-header"><p class="eyebrow">A focused way forward</p><h1>Find potential donors.</h1><p>Search the public directory by blood group and location. You’ll only see what a donor has agreed to share here.</p></div>
-    <div class="shell guard-state" data-guard-message hidden><div class="card-surface guard-card"><span class="notice-symbol" aria-hidden="true">→</span><div><h2>Sign in to search the directory.</h2><p>PulseBridge keeps donor searches available to signed-in receivers only.</p><a class="button button-small" href="login.html?next=find-donors.html">Sign in with Google</a></div></div></div>
+  <main><div class="shell page-header"><p class="eyebrow">A focused way forward</p><h1>Find potential donors.</h1><p>Only donors who confirmed in the last month that they're available are shown. Their phone numbers stay private until they accept your request.</p></div>
+    <div class="shell guard-state" data-guard-message hidden><div class="card-surface guard-card"><span class="notice-symbol" aria-hidden="true">→</span><div><h2>Sign in to search donors.</h2><p>Searching is limited to signed-in users so donor details can't be scraped.</p><a class="button button-small" href="login.html?next=find-donors.html">Sign in with Google</a></div></div></div>
     <div class="shell content-stack" data-gated-content hidden>
-      <section class="search-panel card-surface"><div class="panel-heading"><div><span class="card-kicker">Donor directory</span><h2>What are you looking for?</h2></div><span class="privacy-chip">Private by design</span></div><form id="donor-search-form" class="search-form"><label>Blood group<select name="bloodGroup"><option value="">Any blood group</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option><option>O+</option><option>O-</option></select></label><label>City<input name="city" type="text" placeholder="e.g. Pune" autocomplete="address-level2"></label><label>State<input name="state" type="text" placeholder="e.g. Maharashtra" autocomplete="address-level1"></label><button class="button" type="submit">Search directory <span aria-hidden="true">↗</span></button></form><p class="form-note"><span aria-hidden="true">i</span> Search is case-insensitive. Leave a field blank to widen the search.</p></section>
-      <section class="results-section"><div class="results-heading"><div><p class="eyebrow">Potential matches</p><h2>Donors near your search</h2></div><span id="donor-result-count" class="result-count">No search yet</span></div><div id="donor-results" class="donor-results"></div></section>
-      <section class="privacy-callout"><span class="lock-icon" aria-hidden="true">⌁</span><p><strong>Your next step stays respectful.</strong> Donor phone numbers and emails are never shown here. Use “Request contact” and the admin team will handle the introduction.</p></section>
+      <section class="search-panel card-surface"><div class="panel-heading"><div><span class="card-kicker">Donor search</span><h2>Who are you looking for?</h2></div><span class="privacy-chip">Private by design</span></div>
+        <form id="donor-search-form" class="search-form search-form-wide">
+          <label>Blood group needed<select name="bloodGroup"><option value="">Any blood group</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option><option>O+</option><option>O-</option></select></label>
+          <label>City<input name="city" type="text" placeholder="e.g. Pune" autocomplete="address-level2" maxlength="80"></label>
+          <label>State<input name="state" type="text" placeholder="e.g. Maharashtra" autocomplete="address-level1" maxlength="80"></label>
+          <label class="field-span-2">Nearby hospital<input name="hospital" type="text" placeholder="Part of a hospital name, e.g. Sassoon" maxlength="80"></label>
+          <label>Sort results by<select id="result-sort" name="sort"><option value="best">Best match</option><option value="hospital">Hospital (A–Z)</option><option value="city">City (A–Z)</option><option value="recent">Most recently confirmed</option><option value="age">Youngest first</option></select></label>
+          <div class="search-actions"><div class="check-group"><label class="check-row"><input name="compatible" type="checkbox" checked> Include compatible blood groups</label><label class="check-row"><input id="eligible-only" type="checkbox"> Eligible to donate now only</label></div><button class="button" type="submit">Search donors <span aria-hidden="true">↗</span></button></div>
+        </form>
+        <p class="form-note"><span aria-hidden="true">i</span> “Compatible” uses the standard red-cell chart (for example, O− can give to everyone). The hospital or blood bank always confirms compatibility.</p>
+      </section>
+      <section class="results-section"><div class="results-heading"><div><p class="eyebrow">Potential matches</p><h2>Available donors</h2></div><span id="donor-result-count" class="result-count">No search yet</span></div><div id="donor-results" class="donor-results"></div></section>
+      <section class="privacy-callout"><span class="lock-icon" aria-hidden="true">⌁</span><p><strong>How contact works.</strong> Send a request with the hospital slip. The donor sees it and decides. If they accept, you'll find their number under <a href="my-requests.html">My requests</a>.</p></section>
     </div>
   </main>
   <footer id="site-footer" class="site-footer"></footer>

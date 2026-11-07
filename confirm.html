@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://*.googleusercontent.com; connect-src 'self' https://*.supabase.co wss://*.supabase.co; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; manifest-src 'self'; worker-src 'self'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="description" content="Confirm you are still available to donate blood.">
+  <meta name="theme-color" content="#c62828">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="PulseBridge">
+  <title>Confirm availability — PulseBridge</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="pulsebridge-logo.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/vendor/supabase.js" defer></script>
+</head>
+<body data-page="confirm">
+  <header class="site-header"><div class="shell"><nav id="site-nav" aria-label="Primary navigation"></nav></div></header>
+  <main><section class="card-surface confirm-card"><span class="success-icon" aria-hidden="true">✓</span><h1 id="confirm-title">Confirming…</h1><p id="confirm-copy">One moment.</p><a class="button button-small" href="donate.html">Open my donor page</a></section></main>
+  <footer id="site-footer" class="site-footer"></footer>
+  <script type="module" src="js/ui.js"></script><script type="module" src="js/confirm.js"></script>
+</body>
+</html>

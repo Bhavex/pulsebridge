@@ -388,3 +388,78 @@ tbody tr:last-child td { border-bottom: 0; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
+
+.search-form-wide { grid-template-columns: repeat(3, 1fr); }
+.search-form-wide .search-actions { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 14px 22px; align-items: center; justify-content: space-between; }
+.check-row { display: flex; align-items: center; gap: 9px; font-weight: 600; font-size: 12px; cursor: pointer; }
+.check-row input { min-height: 0; width: 18px; height: 18px; padding: 0; accent-color: var(--red); }
+.check-group { display: flex; flex-wrap: wrap; gap: 10px 22px; }
+.results-toolbar { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.results-toolbar select { min-height: 40px; font-size: 12px; font-weight: 600; }
+.chip-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.chip { display: inline-flex; align-items: center; gap: 5px; border-radius: 99px; padding: 5px 10px; font-size: 10px; font-weight: 700; background: var(--fog); color: var(--ink-soft); white-space: nowrap; }
+.chip-ok { background: #e7f6ed; color: var(--green); }
+.chip-warn { background: #fff5e0; color: #8a5a00; }
+.chip-red { background: var(--red-soft); color: var(--red); }
+.chip-dark { background: var(--ink); color: var(--white); }
+.blood-badge { display: inline-grid; place-items: center; min-width: 46px; height: 46px; padding: 0 8px; border-radius: 14px; background: var(--red); color: var(--white); font-weight: 800; font-size: 16px; }
+.donor-identity { display: flex; gap: 13px; align-items: center; }
+.donor-identity h3 { margin: 0; font-size: 20px; }
+.donor-identity small { color: var(--muted); font-size: 11px; display: block; margin-top: 2px; }
+.donor-details-3 { grid-template-columns: repeat(3, 1fr); }
+.status-pill { display: inline-block; border-radius: 99px; padding: 6px 11px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; background: var(--fog); color: var(--ink-soft); }
+.status-pending { background: #fff5e0; color: #8a5a00; }
+.status-accepted, .status-completed { background: #e7f6ed; color: var(--green); }
+.status-declined, .status-reported, .status-cancelled, .status-expired { background: var(--fog); color: var(--muted); }
+.request-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 18px; }
+.request-head { display: flex; justify-content: space-between; gap: 14px; align-items: flex-start; }
+.request-message { color: var(--ink-soft); font-size: 13px; margin: 16px 0 0; overflow-wrap: anywhere; }
+.contact-reveal { margin-top: 16px; border: 1px solid #bfe3cd; background: #f3fbf6; border-radius: var(--radius-small); padding: 16px 18px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+.contact-reveal strong { display: block; font-size: 16px; }
+.contact-reveal span { color: var(--ink-soft); font-size: 13px; }
+.contact-reveal .request-actions { margin: 0; }
+.dashboard-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 18px; }
+.status-card { padding: 28px; display: grid; gap: 16px; align-content: start; }
+.status-card h2 { font-size: 28px; margin: 0; }
+.status-card p { color: var(--ink-soft); font-size: 13px; margin: 0; }
+.big-toggle { display: flex; align-items: center; justify-content: space-between; gap: 14px; border: 1px solid var(--line); border-radius: var(--radius-small); padding: 16px 18px; }
+.big-toggle strong { font-size: 15px; }
+.big-toggle small { display: block; color: var(--muted); font-size: 11px; margin-top: 3px; }
+.meter { height: 8px; background: var(--fog); border-radius: 99px; overflow: hidden; }
+.meter > span { display: block; height: 100%; background: var(--green); border-radius: 99px; transition: width .3s ease; }
+.meter.is-low > span { background: #d18b00; }
+.profile-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 18px; margin: 0; }
+.profile-facts dt { color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: .08em; }
+.profile-facts dd { margin: 3px 0 0; font-size: 13px; font-weight: 600; overflow-wrap: anywhere; }
+.file-drop { border: 1.5px dashed #d8d6d2; border-radius: var(--radius-small); padding: 18px; display: grid; gap: 8px; background: var(--fog); }
+.file-drop input[type=file] { min-height: 0; padding: 10px; background: var(--white); }
+.file-drop small { color: var(--muted); font-weight: 400; font-size: 11px; }
+.role-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 26px; }
+.role-card { display: grid; gap: 6px; text-decoration: none; color: var(--ink); border: 1px solid var(--line); border-radius: var(--radius-small); padding: 20px; background: var(--white); transition: border-color .2s ease, transform .2s ease; }
+.role-card:hover { border-color: #efb1af; transform: translateY(-2px); }
+.role-card strong { font-size: 16px; }
+.role-card span { color: var(--ink-soft); font-size: 12px; }
+.install-banner { position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%); z-index: 60; display: flex; align-items: center; gap: 12px; background: var(--ink); color: var(--white); border-radius: 99px; padding: 8px 8px 8px 18px; box-shadow: var(--shadow); font-size: 12px; max-width: calc(100% - 32px); }
+.install-banner .button { min-height: 36px; }
+.install-banner .text-button { color: #ddd; }
+.danger-zone { border: 1px solid #efb1af; border-radius: var(--radius-small); padding: 18px 20px; display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; }
+.danger-zone p { margin: 0; color: var(--ink-soft); font-size: 12px; }
+.inline-form { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.inline-form input { min-height: 38px; font-size: 12px; }
+.hidden { display: none !important; }
+.confirm-card { padding: 42px; text-align: center; max-width: 560px; margin: 70px auto; }
+.confirm-card h1 { font-size: 34px; }
+
+@media (max-width: 900px) {
+  .search-form-wide { grid-template-columns: repeat(2, 1fr); }
+  .dashboard-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 680px) {
+  .search-form-wide { grid-template-columns: 1fr; }
+  .search-form-wide .search-actions .button { width: 100%; }
+  .donor-details-3 { grid-template-columns: 1fr 1fr; }
+  .role-cards { grid-template-columns: 1fr; }
+  .profile-facts { grid-template-columns: 1fr; }
+  .contact-reveal .request-actions .button { flex: 1; }
+}

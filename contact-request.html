@@ -1,14 +1,53 @@
 <!doctype html>
 <html lang="en">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Send a private contact request to the PulseBridge admin team."><title>Request contact — PulseBridge</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="css/style.css"></head>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://*.googleusercontent.com; connect-src 'self' https://*.supabase.co wss://*.supabase.co; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; manifest-src 'self'; worker-src 'self'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="description" content="Send a verified blood request to a donor on PulseBridge.">
+  <meta name="theme-color" content="#c62828">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="PulseBridge">
+  <title>Request a donor — PulseBridge</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="pulsebridge-logo.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/vendor/supabase.js" defer></script>
+</head>
 <body data-page="contact-request" data-guard="signed-in">
   <header class="site-header"><div class="shell"><nav id="site-nav" aria-label="Primary navigation"></nav></div></header>
-  <main><div class="shell page-header page-header-compact"><p class="eyebrow">A thoughtful handoff</p><h1>Request contact.</h1><p>Tell the admin team a little about your situation. They’ll see your message and the donor’s protected contact details.</p></div>
-    <div class="shell guard-state" data-guard-message hidden><div class="card-surface guard-card"><span class="notice-symbol" aria-hidden="true">→</span><div><h2>Sign in before you send a request.</h2><p>Your Google account identifies the request without asking you to register again.</p><a class="button button-small" href="login.html">Sign in with Google</a></div></div></div>
+  <main><div class="shell page-header page-header-compact"><p class="eyebrow">A verified request</p><h1>Request this donor.</h1><p>The donor sees these details and the hospital slip, then decides. Your phone number is shared only if they accept.</p></div>
+    <div class="shell guard-state" data-guard-message hidden><div class="card-surface guard-card"><span class="notice-symbol" aria-hidden="true">→</span><div><h2>Sign in before you send a request.</h2><p>Your Google account identifies the request.</p><a class="button button-small" href="login.html">Sign in with Google</a></div></div></div>
     <div class="shell content-narrow" data-gated-content hidden>
-      <section class="request-flow"><div id="requested-donor-summary" class="selected-donor card-surface"><span class="eyebrow">Selected donor</span><strong>Loading donor listing…</strong></div>
-        <form id="contact-request-form" class="card-surface form-card"><input id="request-donor-id" name="donorId" type="hidden"><div class="form-heading"><span class="card-kicker">Contact request</span><h2>Share the essentials.</h2><p>Your phone and message go to the admin team, not directly to the donor.</p></div><div class="form-grid"><label>Your name<input name="requesterName" type="text" required maxlength="80" autocomplete="name" placeholder="Full name"></label><label>Your phone<input name="requesterPhone" type="tel" required maxlength="30" autocomplete="tel" placeholder="Best number to reach you"></label><label class="field-span-2">How urgent is this?<select name="urgency"><option value="routine">Routine — planning ahead</option><option value="soon">Soon — needed in the next day or two</option><option value="urgent">Urgent — please follow up quickly</option></select></label><label class="field-span-2">Short message<textarea name="message" rows="5" maxlength="500" required placeholder="Share only what will help the admin team understand the request."></textarea><span class="field-help">Keep it concise. Do not include passwords or unnecessary medical details.</span></label></div><div class="consent-line"><span class="check-mark" aria-hidden="true">✓</span><p>By sending this request, you understand that PulseBridge is only a connector. Medical compatibility and eligibility must be confirmed by qualified professionals.</p></div><button class="button" type="submit">Send contact request <span aria-hidden="true">↗</span></button></form>
-        <section id="request-success" class="card-surface success-panel" hidden><span class="success-icon" aria-hidden="true">✓</span><p class="eyebrow">Request received</p><h2>The bridge is in motion.</h2><p>The PulseBridge admin team will review your request and follow up using the details you provided.</p><a class="button button-small" href="find-donors.html">Return to donor search</a></section>
+      <section class="request-flow"><div id="requested-donor-summary" class="selected-donor card-surface"><span class="eyebrow">Selected donor</span><strong>Loading…</strong></div>
+        <form id="contact-request-form" class="card-surface form-card"><input name="donorId" type="hidden">
+          <div class="form-heading"><span class="card-kicker">Patient details</span><h2>Who needs blood?</h2></div>
+          <div class="form-grid">
+            <label>Patient name<input name="patientName" type="text" required maxlength="80" placeholder="Patient's full name"></label>
+            <label>Blood group needed<select name="bloodGroupNeeded" required><option value="">Select</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option><option>O+</option><option>O-</option></select></label>
+            <label>Units needed<input name="units" type="number" min="1" max="10" value="1" required></label>
+            <label>Needed by<input name="requiredBy" type="date" required></label>
+            <label>Hospital name<input name="hospitalName" type="text" required maxlength="120" placeholder="Where the patient is admitted"></label>
+            <label>Hospital city<input name="hospitalCity" type="text" required maxlength="80" placeholder="City"></label>
+            <label class="field-span-2">How urgent is it?<select name="urgency"><option value="urgent">Urgent — today</option><option value="soon" selected>Soon — in the next day or two</option><option value="routine">Planned — later this week or more</option></select></label>
+            <div class="field-span-2 file-drop"><label>Hospital blood requisition slip<input name="slip" type="file" accept="image/*,application/pdf" required></label><small>A clear photo or PDF of the form the hospital gave you. Only this donor and the PulseBridge team can see it. Max 5 MB.</small></div>
+          </div>
+          <div class="form-heading"><span class="card-kicker">Your details</span><h2>How can the donor reach you?</h2></div>
+          <div class="form-grid">
+            <label>Your name<input name="requesterName" type="text" required maxlength="80" autocomplete="name" placeholder="Full name"></label>
+            <label>Your phone<input name="requesterPhone" type="tel" required maxlength="20" autocomplete="tel" inputmode="tel" placeholder="98765 43210"></label>
+            <label class="field-span-2">Message to the donor (optional)<textarea name="message" rows="4" maxlength="500" placeholder="e.g. Surgery is scheduled at 10 am. The blood bank is on the ground floor."></textarea></label>
+          </div>
+          <label class="consent-checkbox"><input name="consent" type="checkbox" required><span>I confirm this is a real need for the patient above, the slip is genuine, and I will never ask the donor for money. PulseBridge only connects people; the hospital confirms compatibility.</span></label>
+          <button class="button" type="submit">Send request <span aria-hidden="true">↗</span></button>
+        </form>
+        <section id="request-success" class="card-surface success-panel" hidden><span class="success-icon" aria-hidden="true">✓</span><p class="eyebrow">Request sent</p><h2>The bridge is in motion.</h2><p>The donor has up to 72 hours to respond. If they accept, their number appears in My requests. You can also request more donors at the same time.</p><div class="request-actions"><a class="button button-small" href="my-requests.html">Go to My requests</a><a class="button button-small button-ghost" href="find-donors.html">Find more donors</a></div></section>
       </section>
     </div>
   </main>

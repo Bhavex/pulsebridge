@@ -19,13 +19,18 @@ function destinationFor(user) {
   return isAdmin(user) ? "admin.html" : "find-donors.html";
 }
 
+export function onAuth(callback) {
+  if (authResolved) callback(currentUser);
+  window.addEventListener("pulsebridge:auth", (event) => callback(event.detail?.user || null));
+}
+
 function safeNextPath(user) {
   const rawNext = new URLSearchParams(window.location.search).get("next");
   if (!rawNext) return "";
   try {
     const candidate = new URL(rawNext, window.location.href);
     const page = candidate.pathname.split("/").pop();
-    const allowedPages = ["find-donors.html", "contact-request.html"];
+    const allowedPages = ["find-donors.html", "contact-request.html", "donate.html", "my-requests.html"];
     if (isAdmin(user)) allowedPages.push("admin.html");
     if (candidate.origin !== window.location.origin || !allowedPages.includes(page)) return "";
     return `${page}${candidate.search}`;
@@ -35,8 +40,8 @@ function safeNextPath(user) {
 }
 
 export async function signInWithGoogle(button) {
-  if (!supabaseReady) {
-    showToast("Supabase is not configured yet. Add your project URL and key in js/supabase-config.js first.", "error");
+  if (!supabaseReady || !supabase) {
+    showToast("Sign-in is not available right now. Please refresh and try again.", "error");
     return;
   }
   try {
@@ -152,7 +157,7 @@ async function handleSession(session) {
 
 async function init() {
   bindAuthButtons();
-  if (!supabaseReady) {
+  if (!supabaseReady || !supabase) {
     await handleSession(null);
     return;
   }
@@ -162,6 +167,8 @@ async function init() {
     window.setTimeout(() => handleSession(session), 0);
   });
 }
+
+window.addEventListener("pulsebridge:nav", bindAuthButtons);
 
 if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
 else init();
